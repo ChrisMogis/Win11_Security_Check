@@ -102,7 +102,7 @@ $Computer = (Get-CimInstance -ClassName Win32_ComputerSystem).Name
     Write-Host ""
     Write-Host "#### Check Device Guard status ####"
     $DeviceGuard = (Get-CimInstance -ClassName Win32_DeviceGuard -Namespace root\Microsoft\Windows\DeviceGuard).VirtualizationBasedSecurityStatus
-    if ($DeviceGuard -ne "0") 
+    if ($DeviceGuard -eq "2") 
     {
         Write-Host "Device Guard is activated" -ForegroundColor Green <# Action to perform if the condition is true #>
     }
@@ -110,7 +110,6 @@ $Computer = (Get-CimInstance -ClassName Win32_ComputerSystem).Name
     {
         Write-Host "WARNING - Device Guard is not activated" -ForegroundColor Red <# Action when all if and elseif conditions are false #>
     }
-
 
     Write-Host ""
     Write-Host "#### Check App Guard status ####"
