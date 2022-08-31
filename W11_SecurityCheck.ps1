@@ -125,7 +125,7 @@ $Computer = (Get-CimInstance -ClassName Win32_ComputerSystem).Name
     }
 
     Write-Host ""
-    Write-Host "#### Check Device Guard status ####"
+    Write-Host "#### Check SMB v1 status ####"
     $SMBv1 = (Get-WindowsOptionalFeature -Online -FeatureName SMB1Protocol).State
     if ($SMBv1 -eq "Disabled") 
     {
