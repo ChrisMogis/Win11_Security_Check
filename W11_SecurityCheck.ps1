@@ -1,3 +1,11 @@
+################################################################################################
+# This script can be used to execute security check on Windows 10 & 11                         #
+# Editor : Christopher Mogis                                                                   #
+# Date : 08/31/2022                                                                            #
+# Version 1.1                                                                                  #
+# - Add Bitlocker Encryption Method                                                            #
+################################################################################################
+
 #Variables
 $Date = Get-Date
 $Computer = (Get-CimInstance -ClassName Win32_ComputerSystem).Name
@@ -71,6 +79,8 @@ $Computer = (Get-CimInstance -ClassName Win32_ComputerSystem).Name
         {
             Write-Host "Your System volume is not encrypted" -ForegroundColor Red <# Action when all if and elseif conditions are false #>
         }
+            Write-Host " > Bitlocker Encryption Method : " (Get-BitLockerVolume -MountPoint C).EncryptionMethod -ForegroundColor Yellow
+
     Write-Host ""
     Write-Host "#### Check Windows Update ####"
     Get-Hotfix -Description "Security*" | Sort-Object InstalledOn
@@ -110,6 +120,7 @@ $Computer = (Get-CimInstance -ClassName Win32_ComputerSystem).Name
     {
         Write-Host "WARNING - Device Guard is not activated" -ForegroundColor Red <# Action when all if and elseif conditions are false #>
     }
+
 
     Write-Host ""
     Write-Host "#### Check App Guard status ####"
