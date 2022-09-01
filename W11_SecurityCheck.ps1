@@ -221,5 +221,5 @@ $Computer = (Get-CimInstance -ClassName Win32_ComputerSystem).Name
     else
     {
         Write-Host "WARNING - PowerShell Execution Policy is not correctly configured" -ForegroundColor Red <# Action when all if and elseif conditions are false #>
-        Write-Host " > Execution Policy : $PowerShell" -ForegroundColor Yellow
+        Write-Host " > Execution Policy : $PowerShell" -ForegroundColor Red
     }
