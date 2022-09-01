@@ -209,17 +209,3 @@ $Computer = (Get-CimInstance -ClassName Win32_ComputerSystem).Name
             Write-Host "PCT 1.0 enabled" -ForegroundColor Red <# Action when all if and elseif conditions are false #>
         }
     }
-
-    Write-Host ""
-    Write-Host "#### Check Powershell Execution Policy ####"
-    $PowerShell = Get-ExecutionPolicy
-    if ($PowerShell -eq "Restricted" -OR "ByPass") 
-    {
-        Write-Host "PowerShell Execution Policy is Correctly configured" -ForegroundColor Green <# Action to perform if the condition is true #>
-        Write-Host " > Execution Policy : $PowerShell" -ForegroundColor Yellow
-    }
-    else
-    {
-        Write-Host "WARNING - PowerShell Execution Policy is not correctly configured" -ForegroundColor Red <# Action when all if and elseif conditions are false #>
-        Write-Host " > Execution Policy : $PowerShell" -ForegroundColor Red
-    }
