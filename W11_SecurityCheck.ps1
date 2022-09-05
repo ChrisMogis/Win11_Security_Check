@@ -2,8 +2,9 @@
 # This script can be used to execute security check on Windows 10 & 11                         #
 # Editor : Christopher Mogis                                                                   #
 # Date : 08/31/2022                                                                            #
-# Version 1.1                                                                                  #
-# - Add Bitlocker Encryption Method                                                            #
+# Version 1.2                                                                                  #
+# - Add Bitlocker Encryption Method v1.1                                                       #
+# - Add Windows SandBox Check v1.2                                                             #
 ################################################################################################
 
 #Variables
@@ -121,7 +122,6 @@ $Computer = (Get-CimInstance -ClassName Win32_ComputerSystem).Name
         Write-Host "WARNING - Device Guard is not activated" -ForegroundColor Red <# Action when all if and elseif conditions are false #>
     }
 
-
     Write-Host ""
     Write-Host "#### Check App Guard status ####"
     $AppGuard = (Get-WindowsOptionalFeature -FeatureName "Windows-Defender-ApplicationGuard" -Online).State
@@ -132,6 +132,18 @@ $Computer = (Get-CimInstance -ClassName Win32_ComputerSystem).Name
     else 
     {
         Write-Host "WARNING - App Guard is not activated" -ForegroundColor Red <# Action when all if and elseif conditions are false #>
+    }
+
+    Write-Host ""
+    Write-Host "#### Check Windows Sandbox Status ####"
+    $WinSandbox = (Get-WindowsOptionalFeature -FeatureName Containers-DisposableClientVM -Online).State
+    if($WinSandbox -eq "Enabled")
+    {
+        Write-Host "Windows Sandbox is enabled on your computer" -ForegroundColor Green <# Action to perform if the condition is true #>
+    }
+    else 
+    {
+        Write-Host "INFO - Windows Sandbox is not enabled on your computer" -ForegroundColor Red <# Action when all if and elseif conditions are false #>
     }
 
     Write-Host ""
