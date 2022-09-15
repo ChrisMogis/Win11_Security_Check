@@ -101,6 +101,30 @@ $ComputerInfo = Get-ComputerInfo
     }
 
     Write-Host ""
+    Write-Host "#### Check HVCI status ####"
+    $HVCI = (Get-CimInstance -ClassName Win32_DeviceGuard -Namespace root\Microsoft\Windows\DeviceGuard).SecurityServicesRunning
+    if ($HVCI -eq "2") 
+    {
+        Write-Host "HVCI is enabled" -ForegroundColor Green <# Action to perform if the condition is true #>
+    }
+    else 
+    {
+        Write-Host "WARNING - HVCI is not enabled" -ForegroundColor Red <# Action when all if and elseif conditions are false #>
+    }
+    
+    Write-Host ""
+    Write-Host "#### Check Device Guard status ####"
+    $DeviceGuard = (Get-CimInstance -ClassName Win32_DeviceGuard -Namespace root\Microsoft\Windows\DeviceGuard).VirtualizationBasedSecurityStatus
+    if ($DeviceGuard -eq "2") 
+    {
+        Write-Host "Device Guard is activated" -ForegroundColor Green <# Action to perform if the condition is true #>
+    }
+    else 
+    {
+        Write-Host "WARNING - Device Guard is not activated" -ForegroundColor Red <# Action when all if and elseif conditions are false #>
+    }
+
+    Write-Host ""
     Write-Host "#### Check Credential Guard status ####"
     $CredentialGuardConf = ('CredentialGuard' -match $ComputerInfo.DeviceGuardSecurityServicesConfigured)
     $CredentialGuardRun = ('CredentialGuard' -match $ComputerInfo.DeviceGuardSecurityServicesRunning)
@@ -113,18 +137,6 @@ $ComputerInfo = Get-ComputerInfo
         Write-Host "WARNING - Credential Guard is not activated" -ForegroundColor Red <# Action when all if and elseif conditions are false #>
         Write-Host " > Service is configured : $CredentialGuardConf" -ForegroundColor Yellow
         Write-Host " > Service is running : $CredentialGuardRun" -ForegroundColor Yellow
-    }
-
-    Write-Host ""
-    Write-Host "#### Check Device Guard status ####"
-    $DeviceGuard = (Get-CimInstance -ClassName Win32_DeviceGuard -Namespace root\Microsoft\Windows\DeviceGuard).VirtualizationBasedSecurityStatus
-    if ($DeviceGuard -eq "2") 
-    {
-        Write-Host "Device Guard is activated" -ForegroundColor Green <# Action to perform if the condition is true #>
-    }
-    else 
-    {
-        Write-Host "WARNING - Device Guard is not activated" -ForegroundColor Red <# Action when all if and elseif conditions are false #>
     }
 
     Write-Host ""
@@ -257,16 +269,4 @@ $ComputerInfo = Get-ComputerInfo
         {
             Write-Host "LLMNR is enabled" -ForegroundColor Red <# Action when all if and elseif conditions are false #>
         }
-    }
-
-    Write-Host ""
-    Write-Host "#### Check HVCI status ####"
-    $HVCI = (Get-CimInstance -ClassName Win32_DeviceGuard -Namespace root\Microsoft\Windows\DeviceGuard).SecurityServicesRunning
-    if ($HVCI -eq "2") 
-    {
-        Write-Host "HVCI is enabled" -ForegroundColor Green <# Action to perform if the condition is true #>
-    }
-    else 
-    {
-        Write-Host "WARNING - HVCI is not enabled" -ForegroundColor Red <# Action when all if and elseif conditions are false #>
     }
