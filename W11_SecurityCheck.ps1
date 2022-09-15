@@ -97,7 +97,7 @@ $ComputerInfo = Get-ComputerInfo
     }
     else 
     {
-        Write-Host "INFO - Windows Hypervisor is not enabled on your computer" -ForegroundColor Red <# Action when all if and elseif conditions are false #>
+        Write-Host "INFO - Windows Hypervisor is not enabled on your computer" -ForegroundColor Yellow <# Action when all if and elseif conditions are false #>
     }
 
     Write-Host ""
