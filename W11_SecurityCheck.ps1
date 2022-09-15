@@ -1,7 +1,7 @@
 ################################################################################################
 # This script can be used to execute security check on Windows 10 & 11                         #
 # Editor : Christopher Mogis                                                                   #
-# Date : 09/15/2022                                                                            #
+# Date : 08/31/2022                                                                            #
 # Version 1.3                                                                                  #
 # - Add Bitlocker Encryption Method v1.1                                                       #
 # - Add Windows SandBox Check v1.2                                                             #
@@ -235,11 +235,11 @@ $ComputerInfo = Get-ComputerInfo
         $WDG = Get-ItemProperty $WDIGEST
         if ($WDG.UseLogonCredential -eq 0) 
         {
-            Write-Host "WDigest not enabled" -ForegroundColor Green <# Action to perform if the condition is true #>
+            Write-Host "WDigest is not enabled" -ForegroundColor Green <# Action to perform if the condition is true #>
         }
         else 
         {
-            Write-Host "WDigest enabled" -ForegroundColor Red <# Action when all if and elseif conditions are false #>
+            Write-Host "WDigest is enabled" -ForegroundColor Red <# Action when all if and elseif conditions are false #>
         }
     }
 
@@ -251,11 +251,11 @@ $ComputerInfo = Get-ComputerInfo
         $LLM = Get-ItemProperty $LLMNR
         if ($LLM.EnableMulticast -eq 0) 
         {
-            Write-Host "LLMNR not enabled" -ForegroundColor Green <# Action to perform if the condition is true #>
+            Write-Host "LLMNR is not enabled" -ForegroundColor Green <# Action to perform if the condition is true #>
         }
         else 
         {
-            Write-Host "LLMNR enabled" -ForegroundColor Red <# Action when all if and elseif conditions are false #>
+            Write-Host "LLMNR is enabled" -ForegroundColor Red <# Action when all if and elseif conditions are false #>
         }
     }
 
@@ -264,9 +264,9 @@ $ComputerInfo = Get-ComputerInfo
     $HVCI = (Get-CimInstance -ClassName Win32_DeviceGuard -Namespace root\Microsoft\Windows\DeviceGuard).SecurityServicesRunning
     if ($HVCI -eq "True") 
     {
-        Write-Host "HVCI is activated" -ForegroundColor Green <# Action to perform if the condition is true #>
+        Write-Host "HVCI is enabled" -ForegroundColor Green <# Action to perform if the condition is true #>
     }
     else 
     {
-        Write-Host "WARNING - HVCI is not activated" -ForegroundColor Red <# Action when all if and elseif conditions are false #>
+        Write-Host "WARNING - HVCI is not enabled" -ForegroundColor Red <# Action when all if and elseif conditions are false #>
     }
