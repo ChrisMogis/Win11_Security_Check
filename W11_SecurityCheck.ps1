@@ -1,7 +1,7 @@
 ################################################################################################
 # This script can be used to execute security check on Windows 10 & 11                         #
 # Editor : Christopher Mogis                                                                   #
-# Date : 08/31/2022                                                                            #
+# Date : 09/15/2022                                                                            #
 # Version 1.3                                                                                  #
 # - Add Bitlocker Encryption Method v1.1                                                       #
 # - Add Windows SandBox Check v1.2                                                             #
