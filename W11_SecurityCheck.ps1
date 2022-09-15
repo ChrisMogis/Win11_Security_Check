@@ -1,15 +1,17 @@
 ################################################################################################
 # This script can be used to execute security check on Windows 10 & 11                         #
 # Editor : Christopher Mogis                                                                   #
-# Date : 08/31/2022                                                                            #
-# Version 1.2                                                                                  #
+# Date : 09/15/2022                                                                            #
+# Version 1.3                                                                                  #
 # - Add Bitlocker Encryption Method v1.1                                                       #
 # - Add Windows SandBox Check v1.2                                                             #
+# - Add WDigest, LLMNR and HVCI check                                                          #
 ################################################################################################
 
 #Variables
 $Date = Get-Date
 $Computer = (Get-CimInstance -ClassName Win32_ComputerSystem).Name
+$ComputerInfo = Get-ComputerInfo
 
 #Computer Informations
     Write-Host ""
@@ -100,14 +102,17 @@ $Computer = (Get-CimInstance -ClassName Win32_ComputerSystem).Name
 
     Write-Host ""
     Write-Host "#### Check Credential Guard status ####"
-    $CredentialGuard = ((Get-ComputerInfo).DeviceGuardSecurityServicesRunning)
-    if ($CredentialGuard -eq "CredentialGuard") 
+    $CredentialGuardConf = ('CredentialGuard' -match $ComputerInfo.DeviceGuardSecurityServicesConfigured)
+    $CredentialGuardRun = ('CredentialGuard' -match $ComputerInfo.DeviceGuardSecurityServicesRunning)
+    if ($CredentialGuardRun -eq "True")
     {
         Write-Host "Credential Guard is activated" -ForegroundColor Green <# Action to perform if the condition is true #>
     }
     else 
     {
         Write-Host "WARNING - Credential Guard is not activated" -ForegroundColor Red <# Action when all if and elseif conditions are false #>
+        Write-Host " > Service is configured : $CredentialGuardConf" -ForegroundColor Yellow
+        Write-Host " > Service is running : $CredentialGuardRun" -ForegroundColor Yellow
     }
 
     Write-Host ""
@@ -220,4 +225,48 @@ $Computer = (Get-CimInstance -ClassName Win32_ComputerSystem).Name
         {
             Write-Host "PCT 1.0 enabled" -ForegroundColor Red <# Action when all if and elseif conditions are false #>
         }
+    }
+
+    Write-Host ""
+    Write-Host "#### Check WDigest status ####"
+    $WDIGEST = 'HKLM:\SYSTEM\CurrentControlSet\Control\SecurityProviders\WDigest'
+    if (Test-Path $WDIGEST) 
+    {
+        $WDG = Get-ItemProperty $WDIGEST
+        if ($WDG.UseLogonCredential -eq 0) 
+        {
+            Write-Host "WDigest not enabled" -ForegroundColor Green <# Action to perform if the condition is true #>
+        }
+        else 
+        {
+            Write-Host "WDigest enabled" -ForegroundColor Red <# Action when all if and elseif conditions are false #>
+        }
+    }
+
+    Write-Host ""
+    Write-Host "#### Check LLMNR status ####"
+    $LLMNR = 'HKLM:\SOFTWARE\Policies\Microsoft\Windows NT\DNSClient'
+    if (Test-Path $LLMNR) 
+    {
+        $LLM = Get-ItemProperty $LLMNR
+        if ($LLM.EnableMulticast -eq 0) 
+        {
+            Write-Host "LLMNR not enabled" -ForegroundColor Green <# Action to perform if the condition is true #>
+        }
+        else 
+        {
+            Write-Host "LLMNR enabled" -ForegroundColor Red <# Action when all if and elseif conditions are false #>
+        }
+    }
+
+    Write-Host ""
+    Write-Host "#### Check HVCI status ####"
+    $HVCI = (Get-CimInstance -ClassName Win32_DeviceGuard -Namespace root\Microsoft\Windows\DeviceGuard).SecurityServicesRunning
+    if ($HVCI -eq "True") 
+    {
+        Write-Host "HVCI is activated" -ForegroundColor Green <# Action to perform if the condition is true #>
+    }
+    else 
+    {
+        Write-Host "WARNING - HVCI is not activated" -ForegroundColor Red <# Action when all if and elseif conditions are false #>
     }
