@@ -262,7 +262,7 @@ $ComputerInfo = Get-ComputerInfo
     Write-Host ""
     Write-Host "#### Check HVCI status ####"
     $HVCI = (Get-CimInstance -ClassName Win32_DeviceGuard -Namespace root\Microsoft\Windows\DeviceGuard).SecurityServicesRunning
-    if ($HVCI -eq "True") 
+    if ($HVCI -eq "2") 
     {
         Write-Host "HVCI is enabled" -ForegroundColor Green <# Action to perform if the condition is true #>
     }
