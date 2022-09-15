@@ -5,7 +5,7 @@
 # Version 1.3                                                                                  #
 # - Add Bitlocker Encryption Method v1.1                                                       #
 # - Add Windows SandBox Check v1.2                                                             #
-# - Add WDigest, LLMNR and HVCI check                                                          #
+# - Add WDigest, LLMNR and HVCI check v1.3                                                     #
 ################################################################################################
 
 #Variables
