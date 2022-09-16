@@ -89,18 +89,6 @@ $ComputerInfo = Get-ComputerInfo
     Get-Hotfix -Description "Security*" | Sort-Object InstalledOn
 
     Write-Host ""
-    Write-Host "#### Check Windows Hypervisor Status ####"
-    $HyperV = (Get-WindowsOptionalFeature -FeatureName Microsoft-Hyper-V-All -Online).State
-    if($HyperV -eq "Enabled")
-    {
-        Write-Host "Windows Hypervisor is enabled on your computer" -ForegroundColor Green <# Action to perform if the condition is true #>
-    }
-    else 
-    {
-        Write-Host "INFO - Windows Hypervisor is not enabled on your computer" -ForegroundColor Yellow <# Action when all if and elseif conditions are false #>
-    }
-
-    Write-Host ""
     Write-Host "#### Check HVCI status ####"
     $HVCI = (Get-CimInstance -ClassName Win32_DeviceGuard -Namespace root\Microsoft\Windows\DeviceGuard).SecurityServicesRunning
     if ($HVCI -eq "2") 
@@ -111,7 +99,7 @@ $ComputerInfo = Get-ComputerInfo
     {
         Write-Host "WARNING - HVCI is not enabled" -ForegroundColor Red <# Action when all if and elseif conditions are false #>
     }
-    
+
     Write-Host ""
     Write-Host "#### Check Device Guard status ####"
     $DeviceGuard = (Get-CimInstance -ClassName Win32_DeviceGuard -Namespace root\Microsoft\Windows\DeviceGuard).VirtualizationBasedSecurityStatus
@@ -149,18 +137,6 @@ $ComputerInfo = Get-ComputerInfo
     else 
     {
         Write-Host "WARNING - App Guard is not activated" -ForegroundColor Red <# Action when all if and elseif conditions are false #>
-    }
-
-    Write-Host ""
-    Write-Host "#### Check Windows Sandbox Status ####"
-    $WinSandbox = (Get-WindowsOptionalFeature -FeatureName Containers-DisposableClientVM -Online).State
-    if($WinSandbox -eq "Enabled")
-    {
-        Write-Host "Windows Sandbox is enabled on your computer" -ForegroundColor Green <# Action to perform if the condition is true #>
-    }
-    else 
-    {
-        Write-Host "INFO - Windows Sandbox is not enabled on your computer" -ForegroundColor Red <# Action when all if and elseif conditions are false #>
     }
 
     Write-Host ""
