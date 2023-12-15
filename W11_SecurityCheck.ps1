@@ -161,6 +161,38 @@ $ComputerInfo = Get-ComputerInfo
     {
         Write-Host "Critical - SMB v1 is enabled on your Computer" -ForegroundColor Red <# Action when all if and elseif conditions are false #>
     }
+
+    Write-Host ""
+    Write-Host "#### Check TLS 1.0 status ####"
+    $keyTLS10 = 'HKLM:\SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL\Protocols\TLS 1.0\Client\'
+    if (Test-Path $keyTLS10) 
+    {
+        $TLS10 = Get-ItemProperty $keyTLS10
+        if ($TLS10.DisabledByDefault -ne 0 -or $TLS10.Enabled -eq 0) 
+        {
+            Write-Host "TLS 1.0 Not enabled" -ForegroundColor Green <# Action to perform if the condition is true #>
+        }
+        else 
+        {
+            Write-Host "TLS 1.0 enabled" -ForegroundColor Red <# Action when all if and elseif conditions are false #>
+        }
+    }
+
+    Write-Host ""
+    Write-Host "#### Check TLS 1.1 status ####"
+    $keyTLS11 = 'HKLM:\SYSTEM\CurrentControlSet\Control\SecurityProviders\SCHANNEL\Protocols\TLS 1.1\Client\'
+    if (Test-Path $keyTLS11) 
+    {
+        $TLS11 = Get-ItemProperty $keyTLS11
+        if ($TLS11.DisabledByDefault -ne 0 -or $TLS11.Enabled -eq 0) 
+        {
+            Write-Host "TLS 1.1 Not enabled" -ForegroundColor Green <# Action to perform if the condition is true #>
+        }
+        else 
+        {
+            Write-Host "TLS 1.1 enabled" -ForegroundColor Red <# Action when all if and elseif conditions are false #>
+        }
+    }
     
     Write-Host ""
     Write-Host "#### Check TLS 1.2 status ####"
