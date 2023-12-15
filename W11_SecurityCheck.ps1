@@ -17,8 +17,8 @@
 
     V1.3
     Add WDigest, LLMNR and HVCI check
-
 #>
+
 #Variables
 $Date = Get-Date
 $Computer = (Get-CimInstance -ClassName Win32_ComputerSystem).Name
