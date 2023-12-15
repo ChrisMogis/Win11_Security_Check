@@ -1,13 +1,24 @@
-################################################################################################
-# This script can be used to execute security check on Windows 10 & 11                         #
-# Editor : Christopher Mogis                                                                   #
-# Date : 09/15/2022                                                                            #
-# Version 1.3                                                                                  #
-# - Add Bitlocker Encryption Method v1.1                                                       #
-# - Add Windows SandBox Check v1.2                                                             #
-# - Add WDigest, LLMNR and HVCI check v1.3                                                     #
-################################################################################################
+<#
+.NOTES
+    Version       : 1.3
+    Author        : Christopher Mogis
+    Creation Date : 09/15/2022 
+    
+.DESCRIPTION
 
+    V1.0
+    This script can be used to execute security check on Windows 10 & 11
+
+    V1.1
+    Add Bitlocker Encryption Method
+
+    V1.2
+    Add Windows SandBox Check
+
+    V1.3
+    Add WDigest, LLMNR and HVCI check
+
+#>
 #Variables
 $Date = Get-Date
 $Computer = (Get-CimInstance -ClassName Win32_ComputerSystem).Name
